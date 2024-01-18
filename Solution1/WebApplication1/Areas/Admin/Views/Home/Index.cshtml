@@ -18,7 +18,7 @@
 <body>
 
     <h2>Experts List</h2>
-
+    <h3><a asp-action="CreateExpert">Create</a></h3>
     <table>
         <tr>
             <th>Id</th>
@@ -26,19 +26,26 @@
             <th>Smlinks</th>
             <th>ProfessionName</th>
             <th>IsDeleted</th>
+            <th>Update</th>
         </tr>
         @foreach(var item in Model)
         {
            <tr>
                 <td>@item.Id</td>
                 <td>@item.ImagePath</td>
-                <td>
-                  @item.SMLink
-                    
+                @if (item.SMLink == null || item.SMLink.Count() == 0)
+                {
+                    <td>Empty</td>
+                }
+                else
+                {
+                    <td>@string.Join(",",item.SMLink.Select(x=>x))</td>
+                }
 
-                </td>
+             
                 <td>@item.ProfessionName</td>
                 <td>@item.IsDeleted</td>
+                <td><a asp-action="UpdateExpert" asp-route-id="@item.Id" asp-area="Admin">Update</a></td>
             </tr>
         }
     </table>

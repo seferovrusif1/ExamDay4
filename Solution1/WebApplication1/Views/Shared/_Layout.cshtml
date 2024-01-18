@@ -29,6 +29,12 @@
     <link rel="stylesheet" href="~/css/owl.carousel.min.css">
     <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <style>
+        .fa-linkedin {
+            background: #007bb5;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <!--header section start -->
@@ -54,9 +60,9 @@
                             <a class="nav-link" href="team.html">Team</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact Us</a>
+                            <a class="nav-link" href="contact.html">Contact</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated || User!=null)
+                        @if (User.Identity.IsAuthenticated )
                         {
                             <li class="nav-item">
                                 <a class="nav-link" >@User.Identity.Name</a>
@@ -85,8 +91,8 @@
 
 
 
-            @RenderBody()
 
+            @RenderBody()
 
 
 

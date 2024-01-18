@@ -30,10 +30,83 @@ namespace WebApplication1.Areas.Admin.Controllers
                     ImagePath = x.ImagePath,
                     IsDeleted = x.IsDeleted,
                     ProfessionName = x.Profession.Name,
+                    ProfessionId = x.ProfessionId,
                     SMLink=x.ExpertsSMLinks.Select(q=>q.SMLinks.SMLink).ToList(),
                 }).ToListAsync();
          
             return View(data);
+        }
+        public async Task<IActionResult> CreateExpert()
+        {
+            ViewBag.Profession = _db.Professions;
+            ViewBag.SM = _db.SMLinks;
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateExpert(ExpertCreateVM vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            Experts expert = new Experts
+            {
+                ImagePath = vm.ImagePath,
+                ProfessionId = vm.ProfessionId,
+                ExpertsSMLinks=vm.SMLinkIds.Select(x=>new ExpertsSMLinks
+                {
+                    SMLinksId=x
+                }).ToList()
+                
+            };
+            await _db.Experts.AddAsync(expert);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+        public async Task<IActionResult> UpdateExpert(int id)
+        {
+            ViewBag.Profession = _db.Professions;
+            ViewBag.SM = _db.SMLinks;
+            var data = await _db.Experts.Include(x => x.Profession).Include(d => d.ExpertsSMLinks).SingleOrDefaultAsync(d => d.Id == id);
+            if (data == null) return NotFound();
+
+            var vm = new ExpertUpdateVM
+            {
+                ImagePath = data.ImagePath,
+                ProfessionName = data.Profession.Name,
+                ProfessionId = data.ProfessionId,
+                SMLinkIds = data.ExpertsSMLinks.Select(x => x.SMLinksId).ToList()
+            };
+                return View(vm);
+        }
+           
+        
+        [HttpPost]
+        public async Task<IActionResult> UpdateExpert(int id, ExpertCreateVM vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            var data = await _db.Experts.Include(x => x.Profession).Include(d => d.ExpertsSMLinks).SingleOrDefaultAsync(d => d.Id == id);
+            if (data == null) return NotFound();
+            data.ImagePath = vm.ImagePath;
+            data.ProfessionId = vm.ProfessionId;
+            if(vm.SMLinkIds!=null)
+            {
+                data.ExpertsSMLinks = vm.SMLinkIds.Select(t => new ExpertsSMLinks
+                {
+                    SMLinksId = t
+                }).ToList();
+            }
+       
+
+           
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }

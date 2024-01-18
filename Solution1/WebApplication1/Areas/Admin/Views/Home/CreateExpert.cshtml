@@ -9,9 +9,15 @@
     </div>
 
     <div data-mdb-input-init class="form-outline mb-4">
-        <input type="text" id="ProfessionName" asp-for="ProfessionName" class="form-control" />
+        <select id="ProfessionId" asp-for="ProfessionId" asp-items='@new SelectList(ViewBag.Profession,"Id","Name")' class="form-control"></select>
         <label class="form-label">ProfessionName</label>
-        <span asp-validation-for="ProfessionName"></span>
+        <span asp-validation-for="ProfessionId"></span>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <select id="SMLinkIds" asp-for="SMLinkIds" asp-items='@new SelectList(ViewBag.SM,"Id","SMLink")' class="form-control"></select>
+        <label class="form-label">SmLinks</label>
+        <span asp-validation-for="SMLinkIds"></span>
     </div>
 
 
