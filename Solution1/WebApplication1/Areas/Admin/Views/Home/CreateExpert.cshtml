@@ -1,0 +1,21 @@
+﻿@model ExpertCreateVM
+<h2>Create Expert</h2>
+<form style="width: 26rem;"method="post">
+    <!-- Name input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" id="ImagePath" asp-for="ImagePath" class="form-control" />
+        <label class="form-label">ImagePath</label>
+        <span asp-validation-for="ImagePath"></span>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" id="ProfessionName" asp-for="ProfessionName" class="form-control" />
+        <label class="form-label">ProfessionName</label>
+        <span asp-validation-for="ProfessionName"></span>
+    </div>
+
+
+
+    <!-- Submit button -->
+    <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+</form>
